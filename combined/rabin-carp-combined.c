@@ -199,6 +199,7 @@ int main(int argc, char* argv[]){
 
     print_process_received_data_length(received_block, rank);
 
+    // ToDo this method should be wrote in openMP
     found_indexes = find_pattern_in_text(pat, received_block, &found_indexes_count);
 
     if(found_indexes_count == 0){
