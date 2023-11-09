@@ -24,15 +24,15 @@ void print_process_received_data_length(const char* received_data, int rank){
 
 void print_found_pattern_indexes(int* found_indexes, int size, int rank){
     if(size == 1 && found_indexes[0] == -1){
-        printf("Processor %d has not found it... ", rank);
+        printf("Processor %d has not found it... \n", rank);
     }
     else{
         printf("Processor %d found pattern at index: ", rank);
         for(int i=0; i<size; i++){
             printf("%d, ", found_indexes[i]);
         }
+        printf("\n");
     }
-    printf("\n");
 }
 
 void print_gathered_final_result(const int* found_pattern_indexes, int size, int root_rank){

@@ -3,11 +3,12 @@
 #include <stdlib.h>
 #include <mpi.h>
 #include "prints.h"
+#include "time_measurement.h"
 
 #define ROOT_RANK 0
 #define HASH_PRIME 101
 #define ALPHABET_CHARACTERS_COUNT 256
-#define PATTERN "Tadeusz"
+#define PATTERN "Wokulski"
 
 int* find_pattern_in_text(char pattern[], char txt[], int* found_indexes_count){ 
 
@@ -92,7 +93,7 @@ int* get_block_start_indexes(int number_of_blocks, int size_of_each_block){
 }
 
 char* read_text_file(){
-    FILE *file = fopen("text.txt", "rb");
+    FILE *file = fopen("lalka.txt", "rb");
     fseek( file , 0L , SEEK_END);
     long lSize = ftell( file );
     rewind( file );
@@ -135,7 +136,6 @@ int main(int argc, char* argv[]){
     int i;
     int rank;
     int num_procs;
-
     // From this point runs in parallel
     MPI_Init(&argc, &argv);
     MPI_Comm_size(MPI_COMM_WORLD, &num_procs);
@@ -157,7 +157,13 @@ int main(int argc, char* argv[]){
     char* received_block;
     char* txt;
 
+    printf("\n");
+
     if(rank == ROOT_RANK){
+        // start timer
+        inicjuj_czas();
+
+        // read the text file
         txt = read_text_file();
         pattern_size = strlen(PATTERN);
         pat = (char*)malloc(strlen(PATTERN));
@@ -225,9 +231,11 @@ int main(int argc, char* argv[]){
 
     if(rank == ROOT_RANK){
         print_gathered_final_result(buff, buff_size, ROOT_RANK);
+        drukuj_czas();
     }
 
     MPI_Finalize();
+
 
     return 0;
 }
