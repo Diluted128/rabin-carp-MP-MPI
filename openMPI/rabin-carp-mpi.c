@@ -8,17 +8,17 @@
 #define ROOT_RANK 0
 #define HASH_PRIME 101
 #define ALPHABET_CHARACTERS_COUNT 256
-#define PATTERN "Wokulski"
+#define PATTERN "ABC"
 
-int* find_pattern_in_text(char pattern[], char txt[], int* found_indexes_count){ 
+int* find_pattern_in_text(char pattern[], char txt[], int* found_indexes_count){
 
-    int h = 1; 
-    int i, j; 
+    int h = 1;
+    int i, j;
     int index = 0;
-    int text_hash = 0; 
+    int text_hash = 0;
     int pattern_hash = 0;
-    int pattern_size = strlen(pattern); 
-    int text_size = strlen(txt); 
+    int pattern_size = strlen(pattern);
+    int text_size = strlen(txt);
 
     int* buffer = (int *)malloc((text_size / pattern_size) * sizeof(int));
  
@@ -93,7 +93,7 @@ int* get_block_start_indexes(int number_of_blocks, int size_of_each_block){
 }
 
 char* read_text_file(){
-    FILE *file = fopen("lalka.txt", "rb");
+    FILE *file = fopen("random_chars.txt", "rb");
     fseek( file , 0L , SEEK_END);
     long lSize = ftell( file );
     rewind( file );
@@ -132,7 +132,7 @@ int calculate_final_result_size(const int* counts, int size){
     return sum;
 }
 
-int main(int argc, char* argv[]){    
+int main(int argc, char* argv[]){
     int i;
     int rank;
     int num_procs;
