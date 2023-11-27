@@ -1,6 +1,7 @@
 #include <stdio.h> 
 #include <string.h> 
-  
+#include <windows.h>
+
 #define ALPHABET_CHARACTERS_COUNT 256 
   
 void search(char pattern[], char txt[], int prime) 
@@ -29,8 +30,9 @@ void search(char pattern[], char txt[], int prime)
                     break; 
             } 
 
-            if (j == pattern_size) 
-                printf("Pattern found at index %d \n", i); 
+            if (j == pattern_size) {
+                // printf("Pattern found at index %d \n", i); 
+            }
         } 
   
         // Calculate hash value for next window of text: Remove 
@@ -44,11 +46,36 @@ void search(char pattern[], char txt[], int prime)
     } 
 } 
   
+  char *read_text_file()
+{
+    FILE *file = fopen("random_chars.txt", "rb");
+    fseek(file, 0L, SEEK_END);
+    long lSize = ftell(file);
+    rewind(file);
+
+    char *buffer = (char *)malloc(lSize + 1 * sizeof(char));
+
+    fread(buffer, lSize, 1, file);
+    fclose(file);
+    return buffer;
+}
+
+
 int main() 
 { 
-    char txt[] = "GEEKS FOR GEEKS"; 
-    char pat[] = "GEEK"; 
+    LARGE_INTEGER frequency, start, end;
+    QueryPerformanceFrequency(&frequency);
+    QueryPerformanceCounter(&start);
+
+    char *txt;
+    txt = read_text_file();
+    char pat[] = "ABC"; 
     int q = 101; // A prime number 
     search(pat, txt, q); 
+
+    QueryPerformanceCounter(&end);
+    double elapsed_time = (double)(end.QuadPart - start.QuadPart) / frequency.QuadPart;
+    printf("Czas wykonania: %.9f sekund\n", elapsed_time);
+
     return 0; 
 } 
