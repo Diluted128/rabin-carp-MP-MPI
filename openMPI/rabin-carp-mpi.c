@@ -8,17 +8,17 @@
 #define ROOT_RANK 0
 #define HASH_PRIME 101
 #define ALPHABET_CHARACTERS_COUNT 256
-#define PATTERN "Wokulski"
+#define PATTERN "ABC"
 
-int* find_pattern_in_text(char pattern[], char txt[], int* found_indexes_count){ 
+int* find_pattern_in_text(char pattern[], char txt[], int* found_indexes_count){
 
-    int h = 1; 
-    int i, j; 
+    int h = 1;
+    int i, j;
     int index = 0;
-    int text_hash = 0; 
+    int text_hash = 0;
     int pattern_hash = 0;
-    int pattern_size = strlen(pattern); 
-    int text_size = strlen(txt); 
+    int pattern_size = strlen(pattern);
+    int text_size = strlen(txt);
 
     int* buffer = (int *)malloc((text_size / pattern_size) * sizeof(int));
  
@@ -71,11 +71,11 @@ int* get_block_sizes(int reminder_count, int number_of_blocks, int size_of_each_
 
     int* blocks_sizes = (int *)malloc(number_of_blocks * sizeof(int));
 
-    for(int i=0; i<number_of_blocks; i++){
-        blocks_sizes[i] = size_of_each_block;
+    for(int i=0; i<number_of_blocks - 1; i++){
+        blocks_sizes[i] = size_of_each_block + (long)(strlen(PATTERN) - 1);
     }
 
-    blocks_sizes[number_of_blocks - 1] += reminder_count;
+    blocks_sizes[number_of_blocks - 1] = size_of_each_block + reminder_count;
 
     return blocks_sizes;
 }
@@ -84,7 +84,6 @@ int* get_block_start_indexes(int number_of_blocks, int size_of_each_block){
     int* blocks_sizes = (int *)malloc(number_of_blocks * sizeof(int));
     
     int start_index = 0;
-
     for(int i=0; i<number_of_blocks; i++){
         blocks_sizes[i] = start_index;
         start_index += size_of_each_block;
@@ -93,7 +92,7 @@ int* get_block_start_indexes(int number_of_blocks, int size_of_each_block){
 }
 
 char* read_text_file(){
-    FILE *file = fopen("lalka.txt", "rb");
+    FILE *file = fopen("random_chars.txt", "rb");
     fseek( file , 0L , SEEK_END);
     long lSize = ftell( file );
     rewind( file );
@@ -132,7 +131,7 @@ int calculate_final_result_size(const int* counts, int size){
     return sum;
 }
 
-int main(int argc, char* argv[]){    
+int main(int argc, char* argv[]){
     int i;
     int rank;
     int num_procs;
