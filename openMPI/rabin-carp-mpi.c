@@ -71,11 +71,11 @@ int* get_block_sizes(int reminder_count, int number_of_blocks, int size_of_each_
 
     int* blocks_sizes = (int *)malloc(number_of_blocks * sizeof(int));
 
-    for(int i=0; i<number_of_blocks; i++){
-        blocks_sizes[i] = size_of_each_block;
+    for(int i=0; i<number_of_blocks - 1; i++){
+        blocks_sizes[i] = size_of_each_block + (long)(strlen(PATTERN) - 1);
     }
 
-    blocks_sizes[number_of_blocks - 1] += reminder_count;
+    blocks_sizes[number_of_blocks - 1] = size_of_each_block + reminder_count;
 
     return blocks_sizes;
 }
@@ -84,7 +84,6 @@ int* get_block_start_indexes(int number_of_blocks, int size_of_each_block){
     int* blocks_sizes = (int *)malloc(number_of_blocks * sizeof(int));
     
     int start_index = 0;
-
     for(int i=0; i<number_of_blocks; i++){
         blocks_sizes[i] = start_index;
         start_index += size_of_each_block;
